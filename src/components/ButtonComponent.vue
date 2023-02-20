@@ -1,5 +1,5 @@
 <template>
-    <button>{{ props.buttonName }}</button>
+    <button :class="props.class">{{ props.buttonName }}</button>
 </template>
 
 
@@ -11,15 +11,15 @@
 
 <style scoped>
     .btnAdd {
-
-    }
-
-    . {
-
+        width: 5rem;
+        height: 2rem;
+        background-color: black;
+        color: white;
     }
 
     .btnDelete{
-
+        width: 20rem;
+        background-color: red;
     }
 
 
