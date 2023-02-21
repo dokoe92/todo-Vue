@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
     <div>
-        <p @click="lineThrough" :class="{isDone: !isActive, highPriority: taskToShow.highPrio, lowPriority: taskToShow.lowPrio}" > {{ taskToShow.taskInput }}</p>
+        <p @click="lineThrough" :class="{isDone: !isActive, highPriority: taskToShow.highPrio, lowPriority: taskToShow.lowPrio}" :contenteditable="editable"> {{ taskToShow.taskInput }}</p>
         <div class="buttons-container">
-            <ButtonComponent button-name="Edit" class="btnEdit"/>
+            <ButtonComponent button-name="Edit" class="btnEdit" @click="editTask"/>
             <ButtonComponent button-name="Delete" class="btnDelete" @click="deleteTask(index)"/>
         </div>
     </div>
@@ -18,13 +18,23 @@
     const emits = defineEmits(["deleteTaskWithIndex"])
     const isActive = ref("true");
 
-
+    const lineThroughAllowed = ref(true);
     function lineThrough() {
-        isActive.value = !isActive.value;
+        if (lineThroughAllowed.value) {
+            isActive.value = !isActive.value;
+        }
+
     }
 
     function deleteTask(index) {
         emits("deleteTaskWithIndex", index);
+    }
+
+    const editable = ref(false);
+
+    function editTask() {
+        lineThroughAllowed.value = !lineThroughAllowed.value;
+        editable.value = !editable.value;
     }
 
 
