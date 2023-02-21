@@ -1,21 +1,54 @@
+<!-- eslint-disable vue/require-v-for-key -->
 <template>
-    <div class="task-container">
-        
+    <div>
+        <p @click="lineThrough" :class="{isDone: !isActive, highPriority: taskToShow.highPrio, lowPriority: taskToShow.lowPrio}" > {{ taskToShow.taskInput }}</p>
+        <div class="buttons-container">
+            <ButtonComponent button-name="Edit" class="btnEdit"/>
+            <ButtonComponent button-name="Delete" class="btnDelete" @click="deleteTask(index)"/>
+        </div>
     </div>
 
 </template>
 
 <script setup>
-    
-    const props = defineProps(["task"])
-    
+    import { ref } from "vue";
+    import ButtonComponent from './ButtonComponent.vue';
+
+    const props = defineProps(["taskToShow", "index"]);
+    const emits = defineEmits(["deleteTaskWithIndex"])
+    const isActive = ref("true");
+
+
+    function lineThrough() {
+        isActive.value = !isActive.value;
+    }
+
+    function deleteTask(index) {
+        emits("deleteTaskWithIndex", index);
+    }
+
 
 </script>
 
 
+<style scoped>
+    p {
+        cursor: pointer;
+        text-align: center;
 
-<style scoped> 
+    }
 
+    .isDone {
+        text-decoration: line-through;
 
+    }
+
+    .highPriority {
+        color: orange;
+    }
+
+    .lowPriority {
+        color: gray;
+    }
 
 </style>

@@ -17,10 +17,19 @@
         color: white;
     }
 
+    .btnEdit {
+        width: 4rem;
+        height: 2rem;
+        background-color: yellow;
+    }
+
     .btnDelete{
-        width: 20rem;
+        width: 4rem;
+        height: 2rem;
         background-color: red;
     }
+
+
 
 
 </style>
