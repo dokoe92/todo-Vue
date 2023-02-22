@@ -5,6 +5,7 @@
         <div class="buttons-container">
             <ButtonComponent button-name="Edit" class="btnEdit" @click="editTask"/>
             <ButtonComponent button-name="Delete" class="btnDelete" @click="deleteTask(index)"/>
+
         </div>
     </div>
 
@@ -13,17 +14,28 @@
 <script setup>
     import { ref } from "vue";
     import ButtonComponent from './ButtonComponent.vue';
+    import { useTaskStore } from "@/stores/task.js"
 
-    const props = defineProps(["taskToShow", "index"]);
-    const emits = defineEmits(["deleteTaskWithIndex"])
+    const props = defineProps(["taskToShow", "index","modelValue"]);
+    const emits = defineEmits(["deleteTaskWithIndex", "update:modelValue", "checkDoneStatus"])
+
+    const taskStore = useTaskStore();
+
     const isActive = ref("true");
 
+
     const lineThroughAllowed = ref(true);
+    
     function lineThrough() {
         if (lineThroughAllowed.value) {
             isActive.value = !isActive.value;
         }
-
+        if (!editable.value && !isActive.value ) {
+            taskStore.incrementTasksDone();
+        } 
+        if (!editable.value && isActive.value) {
+            taskStore.decrementTasksDone();
+        }
     }
 
     function deleteTask(index) {
@@ -36,7 +48,6 @@
         lineThroughAllowed.value = !lineThroughAllowed.value;
         editable.value = !editable.value;
     }
-
 
 </script>
 
