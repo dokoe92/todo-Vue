@@ -31,12 +31,14 @@
     const taskInput = ref("");
     const highPrio = ref(false);
     const lowPrio = ref(false);
+    const id = ref(0);
 
     
     const taskInformation = ref({
         taskInput: "",
         highPrio: false,
-        lowPrio: false       
+        lowPrio: false,
+        id
     })
 
 
@@ -51,6 +53,7 @@
             taskInput.value = "";
             highPrio.value = false;
             lowPrio.value = false;
+            id.value++;
         }
     }
 

@@ -4,13 +4,14 @@
   <div class="todo-container">
     <div class="todo-add">
       <AddComponent v-model="task" @addTask="addToArr" />
+
     </div>
     <div class="todo-taskField">
       <h2>{{ tasksDone }} out of {{ tasksAmount }} done </h2>
-      <TaskComponent v-model="done" v-for="(singleTask, index) in tasks" :taskToShow="singleTask" :index="index" @deleteTaskWithIndex="deleteTask" />
+      <TaskComponent v-model="done" v-for="(singleTask, index) in tasks" :key="singleTask.id" :taskToShow="singleTask" :index="index" @deleteTaskWithIndex="deleteTask" />
     </div>
     <routerLink to="/user">User</routerLink>
-    <RouterView />
+
   </div>
 
 </template>
@@ -20,7 +21,6 @@
   import { useTaskStore } from "./stores/task";
   import AddComponent from './components/AddComponent.vue'
   import TaskComponent from "./components/TaskComponent.vue"
-import ButtonComponent from "./components/ButtonComponent.vue";
 
   const task = ref();
 
@@ -35,8 +35,12 @@ import ButtonComponent from "./components/ButtonComponent.vue";
     tasks.value.push({...task.value});
   }
 
-  function deleteTask(index) {
-    tasks.value.splice(index,1);
+  function deleteTask(deleteInfo) {
+    console.log(deleteInfo)
+    if (!deleteInfo.isActive) {
+      taskStore.decrementTasksDone();
+    }
+    tasks.value.splice(deleteInfo.index, 1);
   }
 
 
@@ -56,7 +60,4 @@ import ButtonComponent from "./components/ButtonComponent.vue";
     justify-content: center;
     align-items: center;
   }
-
-
-
 </style>

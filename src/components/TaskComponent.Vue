@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/comment-directive -->
+<!-- eslint-disable no-unused-vars -->
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
     <div>
@@ -16,20 +18,20 @@
     import ButtonComponent from './ButtonComponent.vue';
     import { useTaskStore } from "@/stores/task.js"
 
-    const props = defineProps(["taskToShow", "index","modelValue"]);
-    const emits = defineEmits(["deleteTaskWithIndex", "update:modelValue", "checkDoneStatus"])
+    // eslint-disable-next-line no-unused-vars
+    const props = defineProps(["taskToShow", "index"]);
+    const emits = defineEmits(["deleteTaskWithIndex", "checkDoneStatus", "isActive"])
 
     const taskStore = useTaskStore();
 
-    const isActive = ref("true");
-
-
+    const isActive = ref(true);
+    
     const lineThroughAllowed = ref(true);
     
     function lineThrough() {
         if (lineThroughAllowed.value) {
-            isActive.value = !isActive.value;
-        }
+            isActive.value = !isActive.value
+        } 
         if (!editable.value && !isActive.value ) {
             taskStore.incrementTasksDone();
         } 
@@ -39,7 +41,10 @@
     }
 
     function deleteTask(index) {
-        emits("deleteTaskWithIndex", index);
+        emits("deleteTaskWithIndex", {
+            index,
+            isActive: isActive.value
+        });
     }
 
     const editable = ref(false);
